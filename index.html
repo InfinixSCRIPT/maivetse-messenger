@@ -10,13 +10,11 @@
       background-color: #121212;
       color: white;
     }
-
     .chat-container {
       display: flex;
       flex-direction: column;
       height: 100vh;
     }
-
     .header {
       padding: 15px;
       background-color: #1e1e1e;
@@ -24,7 +22,6 @@
       font-weight: bold;
       font-size: 18px;
     }
-
     .messages {
       flex: 1;
       padding: 10px;
@@ -33,7 +30,6 @@
       flex-direction: column;
       gap: 10px;
     }
-
     .message {
       max-width: 60%;
       padding: 10px 15px;
@@ -42,21 +38,17 @@
       color: white;
       word-wrap: break-word;
     }
-
     .user {
       align-self: flex-end;
     }
-
     .bot {
       align-self: flex-start;
     }
-
     .input-container {
       display: flex;
       padding: 10px;
       background-color: #1e1e1e;
     }
-
     .input-container input {
       flex: 1;
       padding: 10px;
@@ -66,7 +58,6 @@
       background-color: #2e2e2e;
       color: white;
     }
-
     .input-container button {
       padding: 10px 15px;
       border: none;
@@ -75,7 +66,6 @@
       border-radius: 10px;
       cursor: pointer;
     }
-
     .input-container input:focus {
       outline: none;
     }
@@ -84,9 +74,7 @@
 <body>
   <div class="chat-container">
     <div class="header">MaivetseWEBBOT1</div>
-    <div class="messages" id="chatBox">
-      <!-- Mesajlar burada listelenecek -->
-    </div>
+    <div class="messages" id="chatBox"></div>
     <div class="input-container">
       <input type="text" id="messageInput" placeholder="Mesaj yaz...">
       <button onclick="sendMessage()">Gönder</button>
@@ -97,43 +85,70 @@
     const badWords = ["p*rno", "s*x", "y**r*k", "porno", "sex", "yarak", "amk", "orospu"];
     
     const keywordReplies = {
+      // Türkçe
       "merhaba": "Merhaba!",
       "nasılsın": "İyiyim, sen nasılsın?",
       "selam": "Selam! Nasılsın?",
       "ne haber": "Her şey yolunda, sende ne var ne yok?",
       "günaydın": "Günaydın! Bugün harika geçsin!",
       "bir ossarmışım bağırsaklarım koptu": "Selam sana eyyyy imparator!",
-      "bir resim oluştur": "Üzgünüm, şu anda bu yeteneğe sahip değilim."
+
+      // İngilizce
+      "hello": "Hello!",
+      "how are you": "I'm good, how about you?",
+      "good morning": "Good morning! Hope you have a great day!",
+      "hi": "Hi! What's up?",
+
+      // Almanca
+      "hallo": "Hallo!",
+      "wie geht's": "Mir geht's gut, und dir?",
+      "guten morgen": "Guten Morgen! Ich wünsche dir einen schönen Tag!",
     };
+
+    const drawingKeywords = [
+      "bir resim yap", "bir görsel tasarla", "bir resim oluştur", "görsel çiz",
+      "draw a picture", "make an image", "create a picture", 
+      "zeichne ein bild", "ein bild machen", "bild erstellen"
+    ];
+
+    const codeKeywords = [
+      "kod verir misin", "şu şekilde kod verir misin", "kod paylaş", 
+      "give me code", "can you give code", 
+      "kannst du code geben", "gib mir code"
+    ];
+
+    const songKeywords = [
+      "bir şarkı söyle", "bir şarkı çalabilir misin", "bir şarkı söyler misin",
+      "can you sing a song", "can you play a song", "sing a song",
+      "kannst du ein lied singen", "ein lied spielen"
+    ];
+
+    const songReplies = [
+      "Kuşlar Süt alır. Babalarını bekler. Birlikte kahvaltı yaparlar. Keşke hayat kitaplardaki gibi olsaaa. Beğendiysen farklı şeyler söyleyebilirim belki.",
+      "Bir gün bir balık var her zaman yaşayacak oi oi o. Beğendiysen farklı şeyler söyleyebilirim belki.",
+      "Hayat şaşırtır hep zaten, İnsanlar bu dünyadaki zalimliklerini durdursa ne yaşanacak ki zaten. İnsanlar yaşar bu dünya da uzaylılar da yaşasa. günün anlam ve önemi Sıkıcı bir hayattan ibarettir. Beğendiysen farklı şeyler söyleyebilirim belki."
+    ];
+
+    const songRepliesEn = [
+      "Birds buy milk. They wait for their father. They have breakfast together. I wish life was like in books. If you liked it, maybe I can say more.",
+      "One day, there is a fish that will live forever, oi oi o. If you liked it, maybe I can say more.",
+      "Life always surprises anyway. If people stopped their cruelty in this world, what would be left to live anyway... If you liked it, maybe I can say more."
+    ];
+
+    const songRepliesDe = [
+      "Vögel kaufen Milch. Sie warten auf ihren Vater. Sie frühstücken zusammen. Ich wünschte, das Leben wäre wie in den Büchern. Wenn es dir gefallen hat, kann ich vielleicht mehr sagen.",
+      "Eines Tages gibt es einen Fisch, der für immer leben wird, oi oi o. Wenn es dir gefallen hat, kann ich vielleicht mehr sagen.",
+      "Das Leben überrascht sowieso immer. Wenn die Menschen ihre Grausamkeit auf dieser Welt stoppen würden, was bliebe dann noch zu leben... Wenn es dir gefallen hat, kann ich vielleicht mehr sagen."
+    ];
 
     const randomReplies = [
       "Hmm, ilginç söylediklerin.",
-      "Bunu daha önce hiç düşünmemiştim.",
       "Devam et, dinliyorum.",
-      "Vay be, gerçekten mi?",
-      "Hadi biraz daha anlat.",
-      "Bu konuda daha fazla detay ver lütfen.",
+      "Cidden mi? Vay canına.",
+      "This is interesting.",
+      "Erzähl mir mehr.",
       "Anlattıkların enteresan.",
-      "Cidden mi? Vay canına."
     ];
-
-    const germanReplies = {
-      "merhaba": "Hallo!",
-      "nasılsın": "Mir geht es gut, wie geht es dir?",
-      "selam": "Hallo! Wie geht es dir?",
-      "ne haber": "Alles gut, was gibt's bei dir?",
-      "günaydın": "Guten Morgen! Ich hoffe, dein Tag wird toll!",
-      "bir ossarmışım bağırsaklarım koptu": "Hallo, du Imperator!"
-    };
-
-    const englishReplies = {
-      "merhaba": "Hello!",
-      "nasılsın": "I'm fine, how are you?",
-      "selam": "Hello! How are you?",
-      "ne haber": "Everything's fine, what's up with you?",
-      "günaydın": "Good morning! Have a great day!",
-      "bir ossarmışım bağırsaklarım koptu": "Hello, you emperor!"
-    };
 
     function sendMessage() {
       const input = document.getElementById('messageInput');
@@ -157,7 +172,6 @@
     }
 
     function generateBotReply(userText) {
-      // Küfür kontrolü
       for (let bad of badWords) {
         if (userText.includes(bad)) {
           addMessage("Kardeşim sen bir dahi değilsin, reels izlemeye ara ver.", 'bot');
@@ -165,7 +179,33 @@
         }
       }
 
-      // Anahtar kelime kontrolü (tam eşleşme)
+      for (let word of drawingKeywords) {
+        if (userText.includes(word)) {
+          addMessage("Üzgünüm, şu anda bu yeteneğe sahip değilim.", 'bot');
+          return;
+        }
+      }
+
+      for (let word of codeKeywords) {
+        if (userText.includes(word)) {
+          addMessage("Üzgünüm, şu anda böyle bir yeteneğim yok.", 'bot');
+          return;
+        }
+      }
+
+      for (let word of songKeywords) {
+        if (userText.includes(word)) {
+          const lang = detectLanguage(userText);
+          let reply = "";
+          if (lang === "tr") reply = songReplies[Math.floor(Math.random() * songReplies.length)];
+          else if (lang === "en") reply = songRepliesEn[Math.floor(Math.random() * songRepliesEn.length)];
+          else if (lang === "de") reply = songRepliesDe[Math.floor(Math.random() * songRepliesDe.length)];
+          else reply = songReplies[Math.floor(Math.random() * songReplies.length)];
+          addMessage(reply, 'bot');
+          return;
+        }
+      }
+
       for (let key in keywordReplies) {
         if (userText.includes(key)) {
           addMessage(keywordReplies[key], 'bot');
@@ -173,28 +213,17 @@
         }
       }
 
-      // Almanca cevap
-      for (let key in germanReplies) {
-        if (userText.includes(key)) {
-          addMessage(germanReplies[key], 'bot');
-          return;
-        }
-      }
-
-      // İngilizce cevap
-      for (let key in englishReplies) {
-        if (userText.includes(key)) {
-          addMessage(englishReplies[key], 'bot');
-          return;
-        }
-      }
-
-      // Rastgele cevap ver
       const reply = randomReplies[Math.floor(Math.random() * randomReplies.length)];
       addMessage(reply, 'bot');
     }
 
-    // Enter tuşuyla gönderme
+    function detectLanguage(text) {
+      if (text.match(/[çğıöşü]/i)) return "tr";
+      if (text.match(/\b(how|you|can|song|give|code|draw|picture)\b/i)) return "en";
+      if (text.match(/\b(wie|kannst|ein|lied|code|bild)\b/i)) return "de";
+      return "tr";
+    }
+
     document.getElementById("messageInput").addEventListener("keydown", function(event) {
       if (event.key === "Enter") {
         sendMessage();
