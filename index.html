@@ -94,6 +94,23 @@
   </div>
 
   <script>
+    const badWords = ["p*rno", "s*x", "y**r*k", "porno", "sex", "yarak"];
+    const keywordReplies = {
+      "merhaba": "Merhaba!",
+      "nasılsın": "İyiyim, sen nasılsın?",
+      "selam": "Selam! Nasılsın?",
+      "ne haber": "Her şey yolunda, sende ne var ne yok?",
+      "günaydın": "Günaydın! Bugün harika geçsin!"
+    };
+    const randomReplies = [
+      "Hmm, ilginç söylediklerin.",
+      "Bunu daha önce hiç düşünmemiştim.",
+      "Devam et, dinliyorum.",
+      "Vay be, gerçekten mi?",
+      "Hadi biraz daha anlat.",
+      "Bu konuda daha fazla detay ver lütfen."
+    ];
+
     function sendMessage() {
       const input = document.getElementById('messageInput');
       const text = input.value.trim();
@@ -103,7 +120,7 @@
       input.value = '';
 
       setTimeout(() => {
-        fakeBotReply(text);
+        fakeBotReply(text.toLowerCase());
       }, 600);
     }
 
@@ -116,9 +133,34 @@
     }
 
     function fakeBotReply(userText) {
-      const reply = `Sen: "${userText}" dedin, bu çok ilginç! 🤖`;
+      // Kötü kelime kontrolü
+      for (let bad of badWords) {
+        if (userText.includes(bad)) {
+          addMessage("Kardeşim sen bir dahi değilsin, reels izlemeye ara ver.", 'bot');
+          return;
+        }
+      }
+
+      // Anahtar kelime kontrolü
+      for (let key in keywordReplies) {
+        if (userText.includes(key)) {
+          addMessage(keywordReplies[key], 'bot');
+          return;
+        }
+      }
+
+      // Rastgele cevap ver
+      const reply = randomReplies[Math.floor(Math.random() * randomReplies.length)];
       addMessage(reply, 'bot');
     }
+
+    // Enter tuşu ile gönderme
+    document.getElementById("messageInput").addEventListener("keydown", function(event) {
+      if (event.key === "Enter") {
+        sendMessage();
+      }
+    });
   </script>
 </body>
 </html>
+
