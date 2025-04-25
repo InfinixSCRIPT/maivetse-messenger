@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <title>MaivetseWEBBOT1</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: #121212;
+      color: white;
+    }
+
+    .chat-container {
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+    }
+
+    .header {
+      padding: 15px;
+      background-color: #1e1e1e;
+      text-align: center;
+      font-weight: bold;
+      font-size: 18px;
+    }
+
+    .messages {
+      flex: 1;
+      padding: 10px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .message {
+      max-width: 60%;
+      padding: 10px 15px;
+      border-radius: 15px;
+      background-color: black;
+      color: white;
+      word-wrap: break-word;
+    }
+
+    .user {
+      align-self: flex-end;
+    }
+
+    .bot {
+      align-self: flex-start;
+    }
+
+    .input-container {
+      display: flex;
+      padding: 10px;
+      background-color: #1e1e1e;
+    }
+
+    .input-container input {
+      flex: 1;
+      padding: 10px;
+      border: none;
+      border-radius: 10px;
+      margin-right: 10px;
+      background-color: #2e2e2e;
+      color: white;
+    }
+
+    .input-container button {
+      padding: 10px 15px;
+      border: none;
+      background-color: #333;
+      color: white;
+      border-radius: 10px;
+      cursor: pointer;
+    }
+
+    .input-container input:focus {
+      outline: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="chat-container">
+    <div class="header">MaivetseWEBBOT1</div>
+    <div class="messages" id="chatBox">
+      <!-- Mesajlar buraya eklenecek -->
+    </div>
+    <div class="input-container">
+      <input type="text" id="messageInput" placeholder="Mesaj yaz...">
+      <button onclick="sendMessage()">Gönder</button>
+    </div>
+  </div>
+
+  <script>
+    function sendMessage() {
+      const input = document.getElementById('messageInput');
+      const text = input.value.trim();
+      if (text === '') return;
+
+      addMessage(text, 'user');
+      input.value = '';
+
+      setTimeout(() => {
+        fakeBotReply(text);
+      }, 600);
+    }
+
+    function addMessage(text, sender) {
+      const msgDiv = document.createElement('div');
+      msgDiv.classList.add('message', sender);
+      msgDiv.innerText = text;
+      document.getElementById('chatBox').appendChild(msgDiv);
+      document.getElementById('chatBox').scrollTop = document.getElementById('chatBox').scrollHeight;
+    }
+
+    function fakeBotReply(userText) {
+      const reply = `Sen: "${userText}" dedin, bu çok ilginç! 🤖`;
+      addMessage(reply, 'bot');
+    }
+  </script>
+</body>
+</html>
