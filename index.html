@@ -102,7 +102,8 @@
       "selam": "Selam! Nasılsın?",
       "ne haber": "Her şey yolunda, sende ne var ne yok?",
       "günaydın": "Günaydın! Bugün harika geçsin!",
-      "bir ossarmışım bağırsaklarım koptu": "Selam sana eyyyy imparator!"
+      "bir ossarmışım bağırsaklarım koptu": "Selam sana eyyyy imparator!",
+      "bir resim oluştur": "Üzgünüm, şu anda bu yeteneğe sahip değilim."
     };
 
     const randomReplies = [
@@ -115,6 +116,24 @@
       "Anlattıkların enteresan.",
       "Cidden mi? Vay canına."
     ];
+
+    const germanReplies = {
+      "merhaba": "Hallo!",
+      "nasılsın": "Mir geht es gut, wie geht es dir?",
+      "selam": "Hallo! Wie geht es dir?",
+      "ne haber": "Alles gut, was gibt's bei dir?",
+      "günaydın": "Guten Morgen! Ich hoffe, dein Tag wird toll!",
+      "bir ossarmışım bağırsaklarım koptu": "Hallo, du Imperator!"
+    };
+
+    const englishReplies = {
+      "merhaba": "Hello!",
+      "nasılsın": "I'm fine, how are you?",
+      "selam": "Hello! How are you?",
+      "ne haber": "Everything's fine, what's up with you?",
+      "günaydın": "Good morning! Have a great day!",
+      "bir ossarmışım bağırsaklarım koptu": "Hello, you emperor!"
+    };
 
     function sendMessage() {
       const input = document.getElementById('messageInput');
@@ -150,6 +169,22 @@
       for (let key in keywordReplies) {
         if (userText.includes(key)) {
           addMessage(keywordReplies[key], 'bot');
+          return;
+        }
+      }
+
+      // Almanca cevap
+      for (let key in germanReplies) {
+        if (userText.includes(key)) {
+          addMessage(germanReplies[key], 'bot');
+          return;
+        }
+      }
+
+      // İngilizce cevap
+      for (let key in englishReplies) {
+        if (userText.includes(key)) {
+          addMessage(englishReplies[key], 'bot');
           return;
         }
       }
