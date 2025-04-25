@@ -85,7 +85,7 @@
   <div class="chat-container">
     <div class="header">MaivetseWEBBOT1</div>
     <div class="messages" id="chatBox">
-      <!-- Mesajlar buraya eklenecek -->
+      <!-- Mesajlar burada listelenecek -->
     </div>
     <div class="input-container">
       <input type="text" id="messageInput" placeholder="Mesaj yaz...">
@@ -94,21 +94,26 @@
   </div>
 
   <script>
-    const badWords = ["p*rno", "s*x", "y**r*k", "porno", "sex", "yarak"];
+    const badWords = ["p*rno", "s*x", "y**r*k", "porno", "sex", "yarak", "amk", "orospu"];
+    
     const keywordReplies = {
       "merhaba": "Merhaba!",
       "nasılsın": "İyiyim, sen nasılsın?",
       "selam": "Selam! Nasılsın?",
       "ne haber": "Her şey yolunda, sende ne var ne yok?",
-      "günaydın": "Günaydın! Bugün harika geçsin!"
+      "günaydın": "Günaydın! Bugün harika geçsin!",
+      "bir ossarmışım bağırsaklarım koptu": "Selam sana eyyyy imparator!"
     };
+
     const randomReplies = [
       "Hmm, ilginç söylediklerin.",
       "Bunu daha önce hiç düşünmemiştim.",
       "Devam et, dinliyorum.",
       "Vay be, gerçekten mi?",
       "Hadi biraz daha anlat.",
-      "Bu konuda daha fazla detay ver lütfen."
+      "Bu konuda daha fazla detay ver lütfen.",
+      "Anlattıkların enteresan.",
+      "Cidden mi? Vay canına."
     ];
 
     function sendMessage() {
@@ -120,8 +125,8 @@
       input.value = '';
 
       setTimeout(() => {
-        fakeBotReply(text.toLowerCase());
-      }, 600);
+        generateBotReply(text.toLowerCase());
+      }, 500);
     }
 
     function addMessage(text, sender) {
@@ -132,8 +137,8 @@
       document.getElementById('chatBox').scrollTop = document.getElementById('chatBox').scrollHeight;
     }
 
-    function fakeBotReply(userText) {
-      // Kötü kelime kontrolü
+    function generateBotReply(userText) {
+      // Küfür kontrolü
       for (let bad of badWords) {
         if (userText.includes(bad)) {
           addMessage("Kardeşim sen bir dahi değilsin, reels izlemeye ara ver.", 'bot');
@@ -141,7 +146,7 @@
         }
       }
 
-      // Anahtar kelime kontrolü
+      // Anahtar kelime kontrolü (tam eşleşme)
       for (let key in keywordReplies) {
         if (userText.includes(key)) {
           addMessage(keywordReplies[key], 'bot');
@@ -154,7 +159,7 @@
       addMessage(reply, 'bot');
     }
 
-    // Enter tuşu ile gönderme
+    // Enter tuşuyla gönderme
     document.getElementById("messageInput").addEventListener("keydown", function(event) {
       if (event.key === "Enter") {
         sendMessage();
@@ -163,4 +168,3 @@
   </script>
 </body>
 </html>
-
