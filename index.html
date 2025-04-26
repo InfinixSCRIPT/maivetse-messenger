@@ -83,7 +83,7 @@
 
   <script>
     const badWords = ["p*rno", "s*x", "y**r*k", "porno", "sex", "yarak", "amk", "orospu"];
-    
+
     const keywordReplies = {
       // Türkçe
       "merhaba": "Merhaba!",
@@ -92,17 +92,29 @@
       "ne haber": "Her şey yolunda, sende ne var ne yok?",
       "günaydın": "Günaydın! Bugün harika geçsin!",
       "bir ossarmışım bağırsaklarım koptu": "Selam sana eyyyy imparator!",
+      "ayın kaçı": getTodayDate,
+      "bugün ayın kaçı": getTodayDate,
+      "bugün hangi gün": getTodayDay,
+      "bu ayın kaçıncı günü": getTodayDate,
+      "saat kaç": getCurrentTime,
+      "şu an saat kaç": getCurrentTime,
 
       // İngilizce
       "hello": "Hello!",
       "how are you": "I'm good, how about you?",
       "good morning": "Good morning! Hope you have a great day!",
       "hi": "Hi! What's up?",
+      "what day is it": getTodayDay,
+      "what is the date today": getTodayDate,
+      "what time is it": getCurrentTime,
 
       // Almanca
       "hallo": "Hallo!",
       "wie geht's": "Mir geht's gut, und dir?",
       "guten morgen": "Guten Morgen! Ich wünsche dir einen schönen Tag!",
+      "welcher tag ist heute": getTodayDay,
+      "was ist das datum heute": getTodayDate,
+      "wie spät ist es": getCurrentTime,
     };
 
     const drawingKeywords = [
@@ -208,7 +220,8 @@
 
       for (let key in keywordReplies) {
         if (userText.includes(key)) {
-          addMessage(keywordReplies[key], 'bot');
+          const response = typeof keywordReplies[key] === 'function' ? keywordReplies[key]() : keywordReplies[key];
+          addMessage(response, 'bot');
           return;
         }
       }
@@ -219,9 +232,37 @@
 
     function detectLanguage(text) {
       if (text.match(/[çğıöşü]/i)) return "tr";
-      if (text.match(/\b(how|you|can|song|give|code|draw|picture)\b/i)) return "en";
-      if (text.match(/\b(wie|kannst|ein|lied|code|bild)\b/i)) return "de";
+      if (text.match(/\b(how|you|can|song|give|code|draw|picture|what|day|date|time)\b/i)) return "en";
+      if (text.match(/\b(wie|kannst|ein|lied|code|bild|welcher|tag|datum|spät)\b/i)) return "de";
       return "tr";
+    }
+
+    function getTodayDate() {
+      const today = new Date();
+      const day = today.getDate();
+      const month = today.getMonth() + 1;
+      const year = today.getFullYear();
+      return `Bugünün tarihi: ${day}/${month}/${year}`;
+    }
+
+    function getTodayDay() {
+      const daysTr = ["Pazar", "Pazartesi", "Salı", "Çarşamba", "Perşembe", "Cuma", "Cumartesi"];
+      const daysEn = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+      const daysDe = ["Sonntag", "Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag", "Samstag"];
+      const today = new Date();
+      const lang = detectLanguage(document.getElementById('messageInput').value.toLowerCase());
+      const dayIndex = today.getDay();
+      if (lang === "tr") return `Bugün günlerden ${daysTr[dayIndex]}.`;
+      if (lang === "en") return `Today is ${daysEn[dayIndex]}.`;
+      if (lang === "de") return `Heute ist ${daysDe[dayIndex]}.`;
+      return `Bugün günlerden ${daysTr[dayIndex]}.`;
+    }
+
+    function getCurrentTime() {
+      const now = new Date();
+      const hours = now.getHours().toString().padStart(2, "0");
+      const minutes = now.getMinutes().toString().padStart(2, "0");
+      return `Şu an saat: ${hours}:${minutes}`;
     }
 
     document.getElementById("messageInput").addEventListener("keydown", function(event) {
